@@ -36,10 +36,10 @@ The Docker container will need additional capabilities to properly run the softw
 
 The following are recommended:
 
-* drop All capabilities
-* add NET_ADMIN (Perform various network-related operations)
-* add NET_RAW (Use RAW and PACKET sockets; bind to any address for transparent proxying)
-* add SYS_NICE (set real-time scheduling policies, CPU affinity, I/O scheduling, etc.)
+* ``drop All`` capabilities
+* ``add NET_ADMIN`` (Perform various network-related operations)
+* ``add NET_RAW`` (Use RAW and PACKET sockets; bind to any address for transparent proxying)
+* ``add SYS_NICE`` (set real-time scheduling policies, CPU affinity, I/O scheduling, etc.)
 
 ----------------------------
 Container Network Access
@@ -51,8 +51,8 @@ Container Restart
 ---------------------
 To ensure the container restarts in the event of an error.  The restart mode should be set to one of the following:
 
-* unless-stopped
-* always
+* ``unless-stopped``
+* ``always``
 
 -----------------------------
 Container Storage/Volumes
@@ -61,12 +61,12 @@ Container images are designed to be read-only and ephemeral so volumes are used 
 
 The following paths within the container should be protected with a volume:
 
-* /var/corelight
-* /etc/corelight
-* /var/logs/suricata
-* /usr/local/etc/suricata
-* /etc/suricata
-* /var/lib/suricata
+* ``/var/corelight``
+* ``/etc/corelight``
+* ``/var/logs/suricata``
+* ``/usr/local/etc/suricata``
+* ``/etc/suricata``
+* ``/var/lib/suricata``
 
 --------------------
 Environment File
@@ -138,7 +138,7 @@ Dynamic features are features that periodically pull from local or remote source
 
 When the container first starts, if the dynamic content is enabled (see below) and is missing, the entry point script will reach out and pull the content.  The frequency of each pull after the initial is either hourly or weekly, depending on how frequently the source might get updated.  In all cases, if the content at the source has not changed since the last pull, nothing will change in the container.
 
-Configuring the content on the source host for each feature is outside the scope of this document.  However, it could be as simple as adding the content to a locally assessable web server and exposing the directory via a URL.
+Configuring the content on the source host for each feature is outside the scope of this document.  However, it could be as simple as adding the content to a locally reachable web server and exposing the directory via a URL.
 
 Configure the Cron Job Windows
 -------------------------------------
@@ -146,7 +146,7 @@ In an environment with very few sensors, having each container check for updates
 
 To reduce the load on the source, the cron jobs are configured to start randomly within the configured window, at the beginning of the cron period.  For example, the instead of the hourly cron job kicking off at 1:00, it could start at 1:13.
 
-The default window is 1800 seconds (30 minutes).  To change the random window size for all jobs, add the following variable to the environment file:
+The default window is 1800 seconds (30 minutes).  To change the random window size for all jobs, add the following variable in seconds to the environment file:
 
 .. code-block:: shell
 
@@ -176,12 +176,12 @@ To enable the Intel Framework script to automatically check for new files, and d
 
 Setup the GeoIP Database
 ------------------------------
-The GeoIP script will download the GeoLite2-City.mmdb database from the configured URL.  There are two options for downloading the database:
+The GeoIP script will download the ``GeoLite2-City.mmdb`` database from the configured URL.  There are two options for downloading the database:
 
 * directly from Maxmind.com
 * from local URL
 
-Anyone can go to maxmind.com and create an account to get a free license.  If you are going to download directly from maxmind.com, you will need the following variables defined in the environment file:
+Anyone can go to maxmind.com and create an account to generate a free license.  If you are going to download directly from maxmind.com, you will need the following variables defined in the environment file:
 
 .. code-block:: shell
 
@@ -189,7 +189,7 @@ Anyone can go to maxmind.com and create an account to get a free license.  If yo
    GEOIP_SOURCE=maxmind
    GEOIP_MAXMIND_KEY=
 
-To enable the GeoIP script to download the GeoLite2-City.mmdb from a local source (UNCOMPRESSED), add the following variables in the environment file:
+To enable the GeoIP script to download the ``GeoLite2-City.mmdb`` from a local source (UNCOMPRESSED), add the following variables in the environment file:
 
 .. code-block:: shell
 
@@ -205,13 +205,13 @@ Suricata-update in this container has been pre-configured to download rulesets f
 
    UPDATE_SOURCE=http://my-web-server/suricata-rulesets/%(__version__)s/suricata.rules
 
-Alternately, Suricata-update can be configured to run stand-a-lone and pull from Internet sources.  Just change the ``UPDATE_SOURCE`` URL to point to an Internet source.
+Alternately, Suricata-update can be configured to run stand-a-lone and pull from an Internet source.  Just change the ``UPDATE_SOURCE`` URL to point to an Internet source.
 
 The environment file does not provide the ability to configure other settings, including pulling from multiple sources.  However, Suricata-update can be configured via bind mounts to access the appropriate configuration files.
 
 Here is a list of all the relevant Suricata-update files and their locations:
 
-* /etc/suricata/update.yaml
-* /etc/suricata/disable.conf
-* /etc/suricata/enable.conf
-* /etc/suricata/modify.conf
+* ``/etc/suricata/update.yaml``
+* ``/etc/suricata/disable.conf``
+* ``/etc/suricata/enable.conf``
+* ``/etc/suricata/modify.conf``
