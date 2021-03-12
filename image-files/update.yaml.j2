@@ -1,0 +1,25 @@
+%YAML 1.1
+---
+
+suricata-conf: {{ UPDATE_SURICATA_CONF|d('/var/corelight/suricata/.suricata.yaml') }}
+suricata: {{ UPDATE_SURICATA|d('/usr/bin/corelight-suricata') }}
+
+data-directory: {{ UPDATE_DATA_DIRECTORY|d('/etc/corelight/suricata-update') }}
+
+output: {{ UPDATE_OUTPUT|d('/etc/corelight/rules') }}
+
+disable-conf: {{ UPDATE_DISABLE_CONF|d('/etc/suricata/disable.conf') }}
+enable-conf: {{ UPDATE_ENABLE_CONF|d('/etc/suricata/enable.conf') }}
+modify-conf: {{ UPDATE_MODIFY_CONF|d('/etc/suricata/modify.conf') }}
+
+test-command: {{ UPDATE_TEST_COMMAND|d('echo "Ruleset tested on Suricata-update Host - Not running local tests"') }}
+
+reload-command: {{ UPDATE_RELOAD_COMMAND|d('(! $(which pidof) corelight-suricata) || kill -USR2 $($(which pidof) corelight-suricata)') }}
+
+
+  # Local URL source of Central Suricata-update host
+  # Suricata-update runs on a dedicated host and compiles and tests rulesets for each version required.
+  # Then stores those rulesets in a HTTP accessable folder by version, with a md5 hash file.
+  # example:
+sources:
+  - {{ UPDATE_SOURCE|d('http://suricata-update-host/suricata-rulesets/%(__version__)s/suricata.rules') }}
