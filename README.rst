@@ -110,7 +110,7 @@ All corelight-softsensor.conf settings can be changed from their defaults in the
 -------------------------------------
 Configure Corelight/Zeek Packages
 -------------------------------------
-To enable the Corelight packages and/or the pre-bundled packages, include the following in the environment file (edit as appropriate):
+To enable the Zeek packages, include the following in the environment file (edit as appropriate):
 
 .. code-block:: shell
 
@@ -118,6 +118,7 @@ To enable the Corelight packages and/or the pre-bundled packages, include the fo
     ssh-inference
     ConnViz
     cert-hygiene"
+
    INCLUDED_PACKAGES="
     bro-long-connections
     log-add-vlan-everywhere
@@ -129,7 +130,9 @@ To enable the Corelight packages and/or the pre-bundled packages, include the fo
     ssn-exposure
     unknown-mime-type-discovery"
 
-To enable open source packages, **TO BE ADDED**
+   OS_PACKAGES="
+    icannTLD"
+
 
 --------------------------
 Setup Dynamic Features

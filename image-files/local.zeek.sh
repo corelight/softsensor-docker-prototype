@@ -4,19 +4,24 @@ echo @load /etc/corelight/packages >> /etc/corelight/local.zeek
 
 echo "" >> /etc/corelight/local.zeek
 echo "# Load Corelight Packages" >> /etc/corelight/local.zeek
-for package in $CORELIGHT_PACKAGES
-do
+for package in $CORELIGHT_PACKAGES; do
   echo @load Corelight/$package >> /etc/corelight/local.zeek
 done
 
 echo "" >> /etc/corelight/local.zeek
 echo "# Load Pre-bundled Packages" >> /etc/corelight/local.zeek
-for package in $INCLUDED_PACKAGES
-do
+for package in $INCLUDED_PACKAGES; do
   echo @load packages/$package >> /etc/corelight/local.zeek
 done
 
-if [ ${INPUT_FILES_ENABLED} = "true" ]; then
+if $OS_PACKAGES is defined; then
+  echo "Installing Open Source Packages"
+  for package in $OS_PACKAGES; do
+    $(which zkg) install --force --skiptests $package
+  done
+fi
+
+if [ ${INTEL_FILES_ENABLED} = "true" ]; then
   echo "" >> /etc/corelight/local.zeek
   echo "# Load Intel files" >> /etc/corelight/local.zeek
   echo @load frameworks/intel/do_notice >> /etc/corelight/local.zeek
