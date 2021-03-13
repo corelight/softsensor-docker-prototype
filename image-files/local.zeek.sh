@@ -14,9 +14,10 @@ for package in $INCLUDED_PACKAGES; do
   echo @load packages/$package >> /etc/corelight/local.zeek
 done
 
-if $OS_PACKAGES is defined; then
+if [[ ! -z $OS_PACKAGES ]]; then
   echo "Installing Open Source Packages"
   for package in $OS_PACKAGES; do
+    echo "installing $package"
     zkg install --force --skiptests $package
   done
 fi
