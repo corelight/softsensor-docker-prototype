@@ -17,7 +17,7 @@ done
 if $OS_PACKAGES is defined; then
   echo "Installing Open Source Packages"
   for package in $OS_PACKAGES; do
-    $(which zkg) install --force --skiptests $package
+    zkg install --force --skiptests $package
   done
 fi
 
