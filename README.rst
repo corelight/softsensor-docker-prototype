@@ -11,6 +11,8 @@ Corelight Software Sensor Docker Bundle Documentation
 Release notes
 =============
 
+The Cron process is not running.  To trigger the cron scripts, a cron job would have to be setup on the host to run the relevant script.  For example, ``docker exec softsensor-bundle /root/hourly-cron.sh`` on an hourly basis.
+
 -------------------
 Initial release
 -------------------
