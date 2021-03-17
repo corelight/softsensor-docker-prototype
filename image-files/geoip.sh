@@ -1,6 +1,7 @@
 # Download directly from Maxmind.com
 if [[ ${GEOIP_ENABLED} = "true" && ${GEOIP_SOURCE} = "maxmind" ]]; then
   if [ ! -e /usr/share/GeoIP/GeoLite2-City.mmdb ]; then
+    if [ ! -e /usr/share/GeoIP ]; then mkdir /usr/share/GeoIP; fi
     echo "No current GeoIP database, downloading new one"
     if curl --fail --output /tmp/GeoLite2-City.tar.gz.tmp "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=${GEOIP_MAXMIND_KEY}&suffix=tar.gz" ; then
       mv /tmp/GeoLite2-City.tar.gz{.tmp,}
@@ -40,6 +41,7 @@ fi
 # Download from a local source
 if [[ ${GEOIP_ENABLED} = "true" && ${GEOIP_SOURCE} = "local" ]]; then
   if [ ! -e /usr/share/GeoIP/GeoLite2-City.mmdb ]; then
+    if [ ! -e /usr/share/GeoIP ]; then mkdir /usr/share/GeoIP; fi
     echo "Downloading new GeoIP database"
     if curl --fail --output /usr/share/GeoIP/GeoLite2-City.mmdb.tmp ${GEOIP_URL} ; then
       mv /usr/share/GeoIP/GeoLite2-City.mmdb{.tmp,}
