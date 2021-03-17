@@ -4,14 +4,12 @@ Corelight Software Sensor Docker Bundle Documentation
 
 .. note::
 
-   The context for the current build pulls directly from the repo in maestro.  To enable the ability to build the image, create a Personal Access Token, with a minimum of repo read access, in maestro and add it to a .env file in the same folder as the docker-compose.yml file.  See the example.env file.
-
-   * The file should be named ``.env``
+  The Cron process is not running inside the container.  To trigger the cron scripts, a cron job would have to be setup on the host to run the relevant script.  For example, ``docker exec softsensor-bundle /root/hourly-cron.sh`` on an hourly basis.
 
 Release notes
 =============
 
-The Cron process is not running.  To trigger the cron scripts, a cron job would have to be setup on the host to run the relevant script.  For example, ``docker exec softsensor-bundle /root/hourly-cron.sh`` on an hourly basis.
+
 
 -------------------
 Initial release
