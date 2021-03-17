@@ -24,13 +24,7 @@ COPY . /root/
 RUN dpkg -i /corelight* \
     && rm /corelight* \
     && rm /etc/corelight-softsensor.conf.example \
-    && mkdir /usr/share/GeoIP \
-    && mkdir /root/input_files \
     && chmod +x /root/*.sh \
-    && mkdir /etc/cron.hourly \
-    && mkdir /etc/cron.weekly \
-    && mv /root/hourly-cron.sh /etc/cron.hourly/hourly-cron.sh \
-    && mv /root/weekly-cron.sh /etc/cron.weekly/weekly-cron.sh \
     && rm -rf /usr/lib/apt/apt.systemd.daily \
     && rm -rf /etc/systemd/system/timers.target.wants/apt-daily-upgrade.timer \
     && rm -rf /etc/systemd/system/timers.target.wants/apt-daily.timer \
