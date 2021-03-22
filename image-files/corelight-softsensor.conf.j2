@@ -51,6 +51,8 @@ Suricata::rule_path           {{ SURICATA_RULE_PATH|d('/etc/corelight/rules/') }
 # A list of rules to load from the Suricata::rule_path directory.
 Suricata::rule_files          {{ SURICATA_RULE_FILES|d('*.rules') }}
 
+# Enable the Suricata eve log
+Suricata::enable_eve_log      {{ SURICATA_ENABLE_EVE_LOG|d('F') }}
 
 #############################################
 # Analyzer Specific Settings                #
