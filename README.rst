@@ -9,7 +9,9 @@ Corelight Software Sensor Docker Bundle Documentation
 Release notes
 =============
 
+This repository contains a prototype of the Software Sensor running in a Docker container.  The usecase is the prototype, not the software sensor, it is GA.
 
+Currently, this container uses shell scripts to allow the softsensor to pull dynamic content.  In a future state, some or all of that functionality will move to Zeek scripts.
 
 -------------------
 Initial release
