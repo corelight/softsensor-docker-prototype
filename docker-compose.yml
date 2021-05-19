@@ -7,10 +7,10 @@ services:
       args:
         - softsensor_version=1.3.4
         - zkg_version=2.7.0
-        - suricata_update_version=1.1.0
+        - suricata_update_version=1.2.1
 
     # tag the image name to match the softsensor_version variable
-    image: local/softsensor-bundle:1.3.4
+    image: local/softsensor-bundle:1.3.4v0.2
     cap_drop:
       - ALL
     cap_add:
@@ -22,6 +22,8 @@ services:
       - vars.env
     environment:
       - COMPOSE_PROJECT_NAME=corelight-softsensor
+      - CORELIGHT_LICENSE
+      - CORELIGHT_SOFTSENSOR_CONF
     hostname: Softsensor-Docker
     logging:
       driver: "json-file"

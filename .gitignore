@@ -1,2 +1,4 @@
 *.env
 !example*
+corelight-license.txt
+corelight-softsensor.conf

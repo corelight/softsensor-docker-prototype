@@ -4,31 +4,25 @@ Corelight Software Sensor Docker Bundle Documentation
 
 .. note::
 
-  The Cron process is not running inside the container.  To trigger the cron scripts, a cron job would have to be setup on the host to run the relevant script.  For example, ``docker exec softsensor-bundle /root/hourly-cron.sh`` on an hourly basis.
-
-Release notes
-=============
-
-This repository contains a prototype of the Software Sensor running in a Docker container.  The usecase is the prototype, not the software sensor, it is GA.
+  The Cron process is not running inside the container.  The included cron scripts should be run from the Docker host.
 
 Currently, this container uses shell scripts to allow the softsensor to pull dynamic content.  In a future state, some or all of that functionality will move to Zeek scripts.
 
--------------------
-Initial release
--------------------
+
+This repository contains a prototype of the Software Sensor running in a Docker container.  The usecase is the prototype, not the software sensor, it is GA.
 
 Overview
 ========
 
--------------------
-What's included
--------------------
-* Corelight Software Sensor v1.3.4
-* Zeek Package Manager v2.7.0
-* Corelight-Suricata v5.0.3
-* Suricata-update v1.1.0
+--------------------------------------------------------
+What's included (see change-log.rst for version details)
+--------------------------------------------------------
+* Corelight Software Sensor
+* Zeek Package Manager
+* Corelight-Suricata
+* Suricata-update
 
-Set up the container
+Setting up the container
 ==========================
 
 --------------------------
@@ -70,44 +64,46 @@ The following paths within the container should be protected with a volume:
 * ``/etc/suricata``
 * ``/var/lib/suricata``
 
---------------------
-Environment File
---------------------
-All of the configuration settings within the container are passed in with environment variables.  The variables can be added directly to the compose file, however, an environment file is recommended.
+Configuring the Sensor
+==========================
 
-The format of the environment file is a list key=value pairs.  When using an environment file, all of the values are passed into the container exactly as they are written.  If the value is in double quotes in the .env file, it will be passed in with the double quotes.
+The sensor is configured with environment variables which currently require the following three files:
 
-Only variables that contain multiple entries (like CORELIGHT_PACKAGES) and string values that could be misinterpreted as boolean should be in double quotes.  See the attached ``example_vars.env`` file.
-
-Configure the Bundle Components
-===============================
+* corelight-license.txt
+* corelight-softsensor.conf
+* vars.env
 
 --------------------------------------
-License the Corelight-softsensor
+Sensor License (corelight-license.txt)
 --------------------------------------
-Once you have your Corelight-softsensor license, it should be added to the ``vars.env`` files with the following variable:
 
-.. code-block:: shell
+* Contains a single line with the license string
+* Read from the environment variable 'CORELIGHT_LICENSE'.
 
-   CORELIGHT_LICENSE=
+  * To simplify the process, run the provided script "set_config.sh" on the Docker host from the same directory the license and config are located.
 
---------------------------------------
-Configure the Corelight-softsensor
---------------------------------------
-All corelight-softsensor.conf settings can be changed from their defaults in the environment file.  With the exception of ``Corelight::sniff``, enter them in all caps and replace the separators with underscores.
+* Ignored by .gitignore
 
-``Corelight::ignore_bpf`` becomes
+-----------------------------------------
+Sensor Config (corelight-softsensor.conf)
+-----------------------------------------
 
-.. code-block:: shell
+* The entire contents are read from the single environment variable 'CORELIGHT_SOFTSENSOR_CONF'.
 
-   CORELIGHT_IGNORE_BPF=
+  * To simplify the process, run the provided script "set_config.sh" on the Docker host from the same directory the license and config are located.
 
-``Corelight::sniff``, it is split into
+* The corelight-softsensor.conf file only needs to have settings that deviate from the default settings.  All others can be commented out or removed.
+* Ignored by .gitignore
 
-.. code-block:: shell
 
-   CORELIGHT_SNIFF_INTERFACES=
-   CORELIGHT_WORKERS=
+---------------------------
+Environment File (vars.env)
+---------------------------
+
+* All of the configuration settings within the container are passed in with environment variables.  The variables can be added directly to the compose file, however, an environment file is recommended.
+* The format of the environment file is a list key=value pairs.  When using an environment file, all of the values are passed into the container exactly as they are written.  If the value is in double quotes in the .env file, it will be passed in with the double quotes.
+* Only variables that contain multiple entries (like CORELIGHT_PACKAGES) and string values that could be misinterpreted as boolean should be in double quotes.  See the included ``example_vars.env`` file.
+
 
 -------------------------------------
 Configure Corelight/Zeek Packages
@@ -145,17 +141,7 @@ When the container first starts, if the dynamic content is enabled (see below) a
 
 Configuring the content on the source host for each feature is outside the scope of this document.  However, it could be as simple as adding the content to a locally reachable web server and exposing the directory via a URL.
 
-Configure the Cron Job Windows
--------------------------------------
-In an environment with very few sensors, having each container check for updates at exactly the same time is generally not an issue.  However, in environments with hundreds or thousands of sensors, if each container checks at exactly the same time, it could be a burden on the source providing the content.
-
-To reduce the load on the source, the cron jobs are configured to start randomly within the configured window, at the beginning of the cron period.  For example, the instead of the hourly cron job kicking off at 1:00, it could start at 1:13.
-
-The default window is 1800 seconds (30 minutes).  To change the random window size for all jobs, add the following variable in seconds to the environment file:
-
-.. code-block:: shell
-
-   CRON_SLEEP=
+Cron job scripts have been provided that can be run directly on the Docker host to perform the following tasks on an hourly or weekly basis.
 
 Setup the Input Framework
 -------------------------------

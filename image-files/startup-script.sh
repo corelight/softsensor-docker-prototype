@@ -1,9 +1,5 @@
 #!/bin/bash
 
-echo 'Building corelight-softsensor.conf'
-$(which j2) -f env -o /etc/corelight-softsensor.conf /root/corelight-softsensor.conf.j2
-echo /etc/corelight-softsensor.conf
-
 echo 'Building /etc/suricata/update.yaml'
 $(which j2) -f env -o /etc/suricata/update.yaml /root/update.yaml.j2
 cat /etc/suricata/update.yaml
