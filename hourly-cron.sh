@@ -11,5 +11,7 @@ random_wait()
 # delay the job execution by a random amount of time
 random_sleep
 
-# Weekly jobs
-exec /root/geoip.sh
+# Hourly jobs
+docker exec softsensor-bundle suricata-update update -v
+docker exec softsensor-bundle /root/input_files.sh
+docker exec softsensor-bundle /root/intel_files.sh
