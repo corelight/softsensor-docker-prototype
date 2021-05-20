@@ -22,6 +22,15 @@ What's included (see change-log.rst for version details)
 * Corelight-Suricata
 * Suricata-update
 
+Installing Docker
+=================
+
+A script to install Docker on Debian or RHEL based systems is included in another Corelight repo.  To run the script without the need to download it first, execute the following command:
+
+.. code-block:: shell
+
+  source <( curl https://raw.githubusercontent.com/corelight/ansible-awx-docker-bundle/devel/docker-install.sh)
+
 Setting up the container
 ==========================
 
