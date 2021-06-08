@@ -1,11 +1,22 @@
 #!/bin/bash
 
+#Build environment variables for shell scripts
+export INPUT_FILES_UPDATE_ENABLED=`echo "$CORELIGHT_SOFTSENSOR_CONF" | sed -n -e 's/^Corelight::input_files_update_enabled[[:space:]]*//p'`
+export INPUT_FILES_URL=`echo "$CORELIGHT_SOFTSENSOR_CONF" | sed -n -e 's/^Corelight::input_files_url[[:space:]]*//p'`
+export INTEL_FILES_UPDATE_ENABLED=`echo "$CORELIGHT_SOFTSENSOR_CONF" | sed -n -e 's/^Corelight::intel_files_update_enabled[[:space:]]*//p'`
+export INTEL_FILES_URL=`echo "$CORELIGHT_SOFTSENSOR_CONF" | sed -n -e 's/^Corelight::intel_files_url[[:space:]]*//p'`
+export GEOIP_UPDATE_ENABLED=`echo "$CORELIGHT_SOFTSENSOR_CONF" | sed -n -e 's/^Corelight::geoip_update_enabled[[:space:]]*//p'`
+export GEOIP_SOURCE=`echo "$CORELIGHT_SOFTSENSOR_CONF" | sed -n -e 's/^Corelight::geoip_source[[:space:]]*//p'`
+export GEOIP_MAXMIND_KEY=`echo "$CORELIGHT_SOFTSENSOR_CONF" | sed -n -e 's/^Corelight::geoip_maxmind_key[[:space:]]*//p'`
+export GEOIP_URL=`echo "$CORELIGHT_SOFTSENSOR_CONF" | sed -n -e 's/^Corelight::geoip_local_url[[:space:]]*//p'`
+export SURICATA_RULESET_SOURCE=`echo "$CORELIGHT_SOFTSENSOR_CONF" | sed -n -e 's/^Corelight::suricata_ruleset_source[[:space:]]*//p'`
+
 echo 'Building /etc/suricata/update.yaml'
 $(which j2) -f env -o /etc/suricata/update.yaml /root/update.yaml.j2
 cat /etc/suricata/update.yaml
 
 echo 'Collecting GeoIP database if missing and enabled'
-if [[ ! -e /usr/share/GeoIP/GeoLite2-City.mmdb && ${GEOIP_ENABLED} = "true" ]]; then /root/geoip.sh; fi
+if [[ ! -e /usr/share/GeoIP/GeoLite2-City.mmdb && ${GEOIP_UPDATE_ENABLED} = "true" ]]; then /root/geoip.sh; fi
 ls -la /usr/share/GeoIP
 
 echo 'Setting zkg config'
