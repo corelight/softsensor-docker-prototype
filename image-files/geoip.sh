@@ -1,5 +1,5 @@
 # Download directly from Maxmind.com
-if [[ ${GEOIP_ENABLED} = "true" && ${GEOIP_SOURCE} = "maxmind" ]]; then
+if [[ ${GEOIP_UPDATE_ENABLED} = "T" && ${GEOIP_SOURCE} = "maxmind" ]]; then
   if [ ! -e /usr/share/GeoIP/GeoLite2-City.mmdb ]; then
     if [ ! -e /usr/share/GeoIP ]; then mkdir /usr/share/GeoIP; fi
     echo "No current GeoIP database, downloading new one"
@@ -39,7 +39,7 @@ if [[ ${GEOIP_ENABLED} = "true" && ${GEOIP_SOURCE} = "maxmind" ]]; then
 fi
 
 # Download from a local source
-if [[ ${GEOIP_ENABLED} = "true" && ${GEOIP_SOURCE} = "local" ]]; then
+if [[ ${GEOIP_UPDATE_ENABLED} = "T" && ${GEOIP_SOURCE} = "local" ]]; then
   if [ ! -e /usr/share/GeoIP/GeoLite2-City.mmdb ]; then
     if [ ! -e /usr/share/GeoIP ]; then mkdir /usr/share/GeoIP; fi
     echo "Downloading new GeoIP database"

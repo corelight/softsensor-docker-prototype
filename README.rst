@@ -80,7 +80,7 @@ The sensor is configured with environment variables which currently require the 
 
 * corelight-license.txt
 * corelight-softsensor.conf
-* vars.env
+* vars.env (to be removed in a future version)
 
 --------------------------------------
 Sensor License (corelight-license.txt)
@@ -104,20 +104,80 @@ Sensor Config (corelight-softsensor.conf)
 * The corelight-softsensor.conf file only needs to have settings that deviate from the default settings.  All others can be commented out or removed.
 * Ignored by .gitignore
 
+-----------------------------------------------------
+Setup Dynamic Features (in corelight-softsensor.conf)
+-----------------------------------------------------
+Dynamic features are features that periodically pull from local or remote sources to update content in the container.
 
----------------------------
-Environment File (vars.env)
----------------------------
+When the container first starts, if the dynamic content is enabled (see below) and is missing, the entry point script will reach out and pull the content.  The frequency of each pull after the initial should be either hourly or weekly, depending on how frequently the source might get updated.  In all cases, if the content at the source has not changed since the last pull, nothing will change in the container.
 
-* All of the configuration settings within the container are passed in with environment variables.  The variables can be added directly to the compose file, however, an environment file is recommended.
-* The format of the environment file is a list key=value pairs.  When using an environment file, all of the values are passed into the container exactly as they are written.  If the value is in double quotes in the .env file, it will be passed in with the double quotes.
-* Only variables that contain multiple entries (like CORELIGHT_PACKAGES) and string values that could be misinterpreted as boolean should be in double quotes.  See the included ``example_vars.env`` file.
+Configuring the content on the source host for each feature is outside the scope of this document.  However, it could be as simple as adding the content to a locally reachable web server and exposing the directory via a URL.
 
+Cron job scripts have been provided that can be run directly on the Docker host to perform the following tasks on an hourly or weekly basis.
+
+Setup the Input Framework
+-------------------------------
+The Input Framework script will download all the files at the configured URL and place them in the input_files folder.
+
+To enable the Input Framework script to automatically check for new files, and download them on an hourly basis, add the following variables to the environment variable file:
+
+.. code-block:: shell
+
+   Corelight::input_files_update_enabled  T
+   Corelight::input_files_url
+
+Setup the Intel Framework
+-------------------------------
+The Intel Framework script will download all the files at the configured URL, place them in the intel_files folder, and enable them in the local.zeek.  If a new file has been added to the source that was not downloaded when the sensor started, the container will need to be restarted before the new intel file will be enabled.
+
+To enable the Intel Framework script to automatically check for new files, and download them on an hourly basis, add the following variables to the environment variable file:
+
+.. code-block:: shell
+
+   Corelight::intel_files_update_enabled T
+   Corelight::input_files_url
+
+Setup the GeoIP Database
+------------------------------
+The GeoIP script will download the ``GeoLite2-City.mmdb`` database from the configured URL.  There are two options for downloading the database:
+
+* directly from Maxmind.com
+* from local URL
+
+Anyone can go to maxmind.com and create an account to generate a free license.  If you are going to download directly from maxmind.com, you will need the following variables defined in the environment file:
+
+.. code-block:: shell
+
+   Corelight::geoip_update_enabled T
+   Corelight::geoip_source maxmind
+   Corelight::geoip_maxming_key
+
+To enable the GeoIP script to download the ``GeoLite2-City.mmdb`` from a local source (UNCOMPRESSED), add the following variables in the environment file:
+
+.. code-block:: shell
+
+   Corelight::geoip_update_enabled T
+   Corelight::geoip_source local
+   Corelight::geoip_local_url
+
+Configure Suricata-update
+-------------------------------
+Suricata-update in this container has been pre-configured to download rulesets from a local source (based on the running version of suricata) that have already processed by Suricata-update on another host (i.e. suricata-update host).  The ony requirement is to provide the URL in the following format:
+
+.. code-block:: shell
+
+   Corelight::suricata_ruleset_source http://update-host/suricata-rulesets/%(__version__)s/suricata.rules
+
+Alternately, Suricata-update can be configured to run stand-a-lone and pull from an Internet source.  Just change the ``suricata_ruleset_source`` URL to point to an Internet source.
+
+The corelight-softsensor.conf file does not provide the ability to configure other suricata-update settings, including pulling from multiple sources.  However, Suricata-update can be manually configured by editing the update.yaml.j2 template included in this image.
+
+NOTE: Future versions of this image may not contain the full suricata-update service and only the ability to download a new ruleset and apply it!
 
 -------------------------------------
 Configure Corelight/Zeek Packages
 -------------------------------------
-To enable the Zeek packages, include the following in the environment file (edit as appropriate):
+To enable the Zeek packages, include the following in the vars.env file (edit as appropriate):
 
 .. code-block:: shell
 
@@ -139,79 +199,3 @@ To enable the Zeek packages, include the following in the environment file (edit
 
    OS_PACKAGES="
     icannTLD"
-
-
---------------------------
-Setup Dynamic Features
---------------------------
-Dynamic features are features that periodically pull from local or remote sources to update content in the container.
-
-When the container first starts, if the dynamic content is enabled (see below) and is missing, the entry point script will reach out and pull the content.  The frequency of each pull after the initial is either hourly or weekly, depending on how frequently the source might get updated.  In all cases, if the content at the source has not changed since the last pull, nothing will change in the container.
-
-Configuring the content on the source host for each feature is outside the scope of this document.  However, it could be as simple as adding the content to a locally reachable web server and exposing the directory via a URL.
-
-Cron job scripts have been provided that can be run directly on the Docker host to perform the following tasks on an hourly or weekly basis.
-
-Setup the Input Framework
--------------------------------
-The Input Framework script will download all the files at the configured URL and place them in the input_files folder.
-
-To enable the Input Framework script to automatically check for new files, and download them on an hourly basis, add the following variables to the environment variable file:
-
-.. code-block:: shell
-
-   INPUT_FILES_ENABLED="true"
-   INPUT_FILES_URL=
-
-Setup the Intel Framework
--------------------------------
-The Intel Framework script will download all the files at the configured URL, place them in the intel_files folder, and enable them in the local.zeek.  If a new file has been added to the source that was not downloaded when the sensor started, the container will need to be restarted before the new intel file will be enabled.
-
-To enable the Intel Framework script to automatically check for new files, and download them on an hourly basis, add the following variables to the environment variable file:
-
-.. code-block:: shell
-
-   INTEL_FILES_ENABLED="true"
-   INTEL_FILES_URL=
-
-Setup the GeoIP Database
-------------------------------
-The GeoIP script will download the ``GeoLite2-City.mmdb`` database from the configured URL.  There are two options for downloading the database:
-
-* directly from Maxmind.com
-* from local URL
-
-Anyone can go to maxmind.com and create an account to generate a free license.  If you are going to download directly from maxmind.com, you will need the following variables defined in the environment file:
-
-.. code-block:: shell
-
-   GEOIP_ENABLED="true"
-   GEOIP_SOURCE=maxmind
-   GEOIP_MAXMIND_KEY=
-
-To enable the GeoIP script to download the ``GeoLite2-City.mmdb`` from a local source (UNCOMPRESSED), add the following variables in the environment file:
-
-.. code-block:: shell
-
-   GEOIP_ENABLED="true"
-   GEOIP_SOURCE=local
-   GEOIP_LOCAL_URL=
-
-Configure Suricata-update
--------------------------------
-Suricata-update in this container has been pre-configured to download rulesets from a local source (based on the running version of suricata) that have already processed by Suricata-update on another host (i.e. suricata-update host).  The ony requirement is to provide the URL in the following format:
-
-.. code-block:: shell
-
-   UPDATE_SOURCE=http://my-web-server/suricata-rulesets/%(__version__)s/suricata.rules
-
-Alternately, Suricata-update can be configured to run stand-a-lone and pull from an Internet source.  Just change the ``UPDATE_SOURCE`` URL to point to an Internet source.
-
-The environment file does not provide the ability to configure other settings, including pulling from multiple sources.  However, Suricata-update can be configured via bind mounts to access the appropriate configuration files.
-
-Here is a list of all the relevant Suricata-update files and their locations:
-
-* ``/etc/suricata/update.yaml``
-* ``/etc/suricata/disable.conf``
-* ``/etc/suricata/enable.conf``
-* ``/etc/suricata/modify.conf``

@@ -23,7 +23,6 @@ COPY --from=stage1 /fakeroot/corelight*  /
 COPY . /root/
 RUN dpkg -i /corelight* \
     && rm /corelight* \
-    && rm /etc/corelight-softsensor.conf.example \
     && chmod +x /root/*.sh \
     && rm -rf /usr/lib/apt/apt.systemd.daily \
     && rm -rf /etc/systemd/system/timers.target.wants/apt-daily-upgrade.timer \
