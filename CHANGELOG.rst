@@ -9,6 +9,7 @@ Change Log
 Release v0.3
 --------------------
 
+* Corelight Software Sensor v1.3.5
 * The vars.env file is now only used for zeek packages.  The following options have been added to corelight-softsensor.conf:
 
   * Corelight::input_files_update_enabled   T or F

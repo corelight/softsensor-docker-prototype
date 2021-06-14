@@ -166,7 +166,7 @@ Suricata-update in this container has been pre-configured to download rulesets f
 
 .. code-block:: shell
 
-   Corelight::suricata_ruleset_source http://my-web-server/suricata-rulesets/%(__version__)s/suricata.rules
+   Corelight::suricata_ruleset_source http://update-host/suricata-rulesets/%(__version__)s/suricata.rules
 
 Alternately, Suricata-update can be configured to run stand-a-lone and pull from an Internet source.  Just change the ``suricata_ruleset_source`` URL to point to an Internet source.
 
