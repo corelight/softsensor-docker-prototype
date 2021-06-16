@@ -6,10 +6,21 @@ Change Log
 =============
 
 --------------------
-Release v0.3
+Release v0.4
 --------------------
 
 * Corelight Software Sensor v1.3.5
+* Zeek Package Manager v2.9.0
+* Corelight-Suricata v5.0.3
+* Suricata-update v1.2.2
+
+* The included Zeek package 'bro-long-connections' has been renamed to 'zeek-long-connections'.
+* Advanced Suricata support added
+
+--------------------
+Release v0.3
+--------------------
+
 * The vars.env file is now only used for zeek packages.  The following options have been added to corelight-softsensor.conf:
 
   * Corelight::input_files_update_enabled   T or F

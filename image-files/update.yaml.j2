@@ -17,9 +17,9 @@ test-command: echo "Ruleset tested on Suricata-update Host - Not running local t
 reload-command: (! $(which pidof) corelight-suricata) || kill -USR2 $($(which pidof) corelight-suricata)
 
 
-  # Local URL source of Central Suricata-update host
+  # Default local URL source of corelight-update host
   # Suricata-update runs on a dedicated host and compiles and tests rulesets for each version required.
   # Then stores those rulesets in a HTTP accessable folder by version, with a md5 hash file.
   # example:
 sources:
-  - {{ SURICATA_RULESET_SOURCE|d('http://suricata-update-host/suricata-rulesets/%(__version__)s/suricata.rules') }}
+  - {{ SURICATA_RULESET_SOURCE|d('http://corelight-update-host/suricata-rulesets/%(__version__)s/suricata.rules') }}
