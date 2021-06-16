@@ -89,7 +89,7 @@ Sensor License (corelight-license.txt)
 * Contains a single line with the license string
 * Read from the environment variable 'CORELIGHT_LICENSE'.
 
-  * To simplify the process, run the provided script "set_config.sh" on the Docker host from the same directory the license and config are located.
+  * To simplify the process, source the provided script "set_config" on the Docker host from the same directory the license and config are located.
 
 * Ignored by .gitignore
 
@@ -99,7 +99,7 @@ Sensor Config (corelight-softsensor.conf)
 
 * The entire contents are read from the single environment variable 'CORELIGHT_SOFTSENSOR_CONF'.
 
-  * To simplify the process, run the provided script "set_config.sh" on the Docker host from the same directory the license and config are located.
+  * To simplify the process, source the provided script "set_config" on the Docker host from the same directory the license and config are located.
 
 * The corelight-softsensor.conf file only needs to have settings that deviate from the default settings.  All others can be commented out or removed.
 * Ignored by .gitignore
@@ -181,13 +181,23 @@ To enable the Zeek packages, include the following in the vars.env file (edit as
 
 .. code-block:: shell
 
-   CORELIGHT_PACKAGES="
-    ssh-inference
+    CORELIGHT_PACKAGES="
+    DOH
+    BeaconFinder
+    cert-hygiene
+    encrypted_dns_sni
     ConnViz
-    cert-hygiene"
+    generic-icmp-tunnel
+    generic_dns_tunnel
+    http-c2
+    MeterpreterDetection
+    specific-dns-tunnels
+    specific-icmp-tunnels
+    ssh-inference
+    SteppingStones"
 
    INCLUDED_PACKAGES="
-    bro-long-connections
+    zeek-long-connections
     log-add-vlan-everywhere
     bro-is-darknet
     bro-simple-scan
