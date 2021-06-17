@@ -6,6 +6,14 @@ Change Log
 =============
 
 --------------------
+Release v0.5
+--------------------
+
+* Corelight Software Sensor v1.3.6
+
+* Gracefully handles Zeek package renaming.
+
+--------------------
 Release v0.4
 --------------------
 

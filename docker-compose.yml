@@ -5,12 +5,12 @@ services:
     build:
       context: ./image-files
       args:
-        - softsensor_version=1.3.5
+        - softsensor_version=1.3.6
         - zkg_version=2.9.0
         - suricata_update_version=1.2.2
 
     # tag the image name to match the softsensor_version variable
-    image: local/softsensor-bundle:1.3.5v0.4
+    image: local/softsensor-bundle:1.3.6v0.5
     cap_drop:
       - ALL
     cap_add:
