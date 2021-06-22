@@ -6,6 +6,15 @@ Change Log
 =============
 
 --------------------
+Release v0.6
+--------------------
+
+* Improved Logging of startup script
+* Only export environment variables if they exists in softsensor config
+* Moved volume definition to Dockerfile
+* Moved network definition to image build
+
+--------------------
 Release v0.5
 --------------------
 
@@ -39,7 +48,7 @@ Release v0.3
   * Corelight::geoip_source                 maxmind or local
   * Corelight::geoip_maxmind_key
   * Corelight::geoip_local_url
-  * Corelight::suricata_ruleset_source      http://my-web-server/suricata-rulesets/%(__version__)s/suricata.rules
+  * Corelight::suricata_ruleset_source      http://corelight-update-host/suricata-rulesets/%(__version__)s/suricata.rules
 
 --------------------
 Release v0.2

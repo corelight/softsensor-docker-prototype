@@ -1,10 +1,36 @@
 #source this file to build environment variables for shell scripts
-export INPUT_FILES_UPDATE_ENABLED=`echo "$CORELIGHT_SOFTSENSOR_CONF" | sed -n -e 's/^Corelight::input_files_update_enabled[[:space:]]*//p'`
+if grep -q Corelight::input_files_update_enabled "$CORELIGHT_SOFTSENSOR_CONF"; then
+  export INPUT_FILES_UPDATE_ENABLED=`echo "$CORELIGHT_SOFTSENSOR_CONF" | sed -n -e 's/^Corelight::input_files_update_enabled[[:space:]]*//p'`
+fi
+
+if grep -q Corelight::input_files_url "$CORELIGHT_SOFTSENSOR_CONF"; then
 export INPUT_FILES_URL=`echo "$CORELIGHT_SOFTSENSOR_CONF" | sed -n -e 's/^Corelight::input_files_url[[:space:]]*//p'`
+fi
+
+if grep -q Corelight::intel_files_update_enabled "$CORELIGHT_SOFTSENSOR_CONF"; then
 export INTEL_FILES_UPDATE_ENABLED=`echo "$CORELIGHT_SOFTSENSOR_CONF" | sed -n -e 's/^Corelight::intel_files_update_enabled[[:space:]]*//p'`
+fi
+
+if grep -q Corelight::intel_files_url "$CORELIGHT_SOFTSENSOR_CONF"; then
 export INTEL_FILES_URL=`echo "$CORELIGHT_SOFTSENSOR_CONF" | sed -n -e 's/^Corelight::intel_files_url[[:space:]]*//p'`
+fi
+
+if grep -q Corelight::geoip_update_enabled "$CORELIGHT_SOFTSENSOR_CONF"; then
 export GEOIP_UPDATE_ENABLED=`echo "$CORELIGHT_SOFTSENSOR_CONF" | sed -n -e 's/^Corelight::geoip_update_enabled[[:space:]]*//p'`
+fi
+
+if grep -q Corelight::geoip_source "$CORELIGHT_SOFTSENSOR_CONF"; then
 export GEOIP_SOURCE=`echo "$CORELIGHT_SOFTSENSOR_CONF" | sed -n -e 's/^Corelight::geoip_source[[:space:]]*//p'`
+fi
+
+if grep -q Corelight::geoip_maxmind_key "$CORELIGHT_SOFTSENSOR_CONF"; then
 export GEOIP_MAXMIND_KEY=`echo "$CORELIGHT_SOFTSENSOR_CONF" | sed -n -e 's/^Corelight::geoip_maxmind_key[[:space:]]*//p'`
+fi
+
+if grep -q Corelight::geoip_local_url "$CORELIGHT_SOFTSENSOR_CONF"; then
 export GEOIP_URL=`echo "$CORELIGHT_SOFTSENSOR_CONF" | sed -n -e 's/^Corelight::geoip_local_url[[:space:]]*//p'`
+fi
+
+if grep -q Corelight::suricata_ruleset_source "$CORELIGHT_SOFTSENSOR_CONF"; then
 export SURICATA_RULESET_SOURCE=`echo "$CORELIGHT_SOFTSENSOR_CONF" | sed -n -e 's/^Corelight::suricata_ruleset_source[[:space:]]*//p'`
+fi

@@ -58,7 +58,7 @@ FROM scratch AS final
 
 COPY --from=stage2 / /
 
-LABEL "com.docker.compose.project"="corelight-softsensor-bundle"
+VOLUME /var/corelight /etc/corelight /etc/suricata /var/log/suricata /usr/local/etc/suricata /var/lib/suricata
 
 # CMD [ "bash" ]
 CMD [ "/root/startup-script.sh" ]
