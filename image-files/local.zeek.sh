@@ -22,7 +22,7 @@ if [[ ! -z $OS_PACKAGES ]]; then
   done
 fi
 
-if [ ${INTEL_FILES_UPDATE_ENABLED} = "T" ]; then
+if [[ ${INTEL_FILES_UPDATE_ENABLED} == "T" ]]; then
   echo "" >> /etc/corelight/local.zeek
   echo "# Load Intel files" >> /etc/corelight/local.zeek
   echo @load frameworks/intel/do_notice >> /etc/corelight/local.zeek
