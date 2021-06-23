@@ -4,7 +4,6 @@ services:
   corelight-softsensor:
     build:
       context: ./image-files
-      network: host
       args:
         - softsensor_version=1.3.6
         - zkg_version=2.9.0
@@ -26,6 +25,7 @@ services:
       - CORELIGHT_LICENSE
       - CORELIGHT_SOFTSENSOR_CONF
     hostname: Softsensor-Docker
+    network_mode: "host"
     restart: unless-stopped
     privileged: true
     stdin_open: true
