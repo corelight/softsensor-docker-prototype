@@ -19,10 +19,11 @@ services:
     env_file:
       - vars.env
     volumes:
+      - ./corelight-var:/var/corelight/
       - ./corelight-softsensor.conf:/etc/corelight-softsensor.conf
       - ./corelight-license.txt:/etc/corelight-license.txt
-      # - ./corelight-update-etc:/etc/corelight-update
-      # - ./corelight-update-var:/var/corelight-update
+      # - ./corelight-update-etc:/etc/corelight-update/
+      # - ./corelight-update-var:/var/corelight-update/
     hostname: Softsensor-Docker
     network_mode: "host"
     restart: unless-stopped
