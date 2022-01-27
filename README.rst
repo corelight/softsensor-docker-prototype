@@ -5,9 +5,9 @@ Corelight Software Sensor Docker Bundle Documentation
 Overview
 ========
 
---------------------------------------------------------
-What's included (see change-log.rst for version details)
---------------------------------------------------------
+----------------
+What's included
+----------------
 * Corelight Software Sensor
 * Zeek Package Manager
 * Corelight-update (optionally)
