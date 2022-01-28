@@ -12,7 +12,7 @@ RUN chmod 777 /fakeroot \
     debian-archive-keyring \
     apt-transport-https
 
-RUN curl -L https://packagecloud.io/corelight/stable/gpgkey | sudo apt-key add - \
+RUN curl -L https://packagecloud.io/corelight/stable/gpgkey | apt-key add - \
     && echo "deb https://packagecloud.io/corelight/stable/debian/ buster main" > /etc/apt/sources.list.d/corelight.list \
     && echo "deb-src https://packagecloud.io/corelight/stable/debian/ buster main" >> /etc/apt/sources.list.d/corelight.list \
     && apt-get update \
