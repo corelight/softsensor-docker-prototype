@@ -5,7 +5,7 @@ services:
     build:
       context: ./image-files
       args:
-        - softsensor_version=1.4.5
+        - softsensor_version=1.13.1
 
     # tag the image name to match the softsensor_version variable
     image: local/softsensor-bundle

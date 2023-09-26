@@ -1,4 +1,5 @@
-FROM public.ecr.aws/corelight/software-sensor:1.4.0-59-g0f8de8b
+ARG softsensor_version
+FROM public.ecr.aws/corelight/software-sensor:$softsensor_version
 
 # The following COPY and RUN commands will install optionally install
 # zkg for open source zeek packages and some optional bash scripts
